@@ -77,10 +77,6 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-500/10 text-blue-300 border border-blue-500/20 mb-6">
-              <Wrench className="w-3.5 h-3.5 mr-2" />
-              Trusted by 1M+ Users
-            </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 font-display tracking-tight">
               Fix Your Tech Problems <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">Fast.</span>
             </h1>
