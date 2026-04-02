@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet-async";
 interface SEOProps {
   title: string;
   description: string;
+  keywords?: string;
   type?: string;
   url?: string;
   lang?: string;
@@ -11,17 +12,19 @@ interface SEOProps {
 const SITE_URL = "https://fixitech.site";
 const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
 
-export function SEO({ title, description, type = "website", url, lang = "en" }: SEOProps) {
+export function SEO({ title, description, keywords, type = "website", url, lang = "en" }: SEOProps) {
   const siteName = "fixitech";
-  const fullTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
+  const fullTitle = title.includes(siteName) ? title : `${title} | fixitech`;
   const canonical = url ? `${SITE_URL}${url}` : SITE_URL;
+  const metaKeywords = keywords ?? "tech fix, troubleshooting, laptop repair, phone fix, wifi fix, windows fix, android fix, iphone fix, how to fix tech problems";
 
   return (
     <Helmet>
       <html lang={lang} />
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
-      <meta name="robots" content="index, follow" />
+      <meta name="keywords" content={metaKeywords} />
+      <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
       <link rel="canonical" href={canonical} />
 
       {/* Open Graph */}
@@ -49,10 +52,8 @@ export function SEO({ title, description, type = "website", url, lang = "en" }: 
       <link rel="alternate" hrefLang="es" href={`${SITE_URL}${url || "/"}`} />
       <link rel="alternate" hrefLang="x-default" href={`${SITE_URL}${url || "/"}`} />
 
-      {/* Extra SEO */}
       <meta name="theme-color" content="#2563eb" />
       <meta name="author" content="fixitech" />
-      <meta name="keywords" content="tech fix, troubleshooting, laptop repair, phone fix, wifi fix, windows fix, android fix, iphone fix, how to fix" />
     </Helmet>
   );
 }
