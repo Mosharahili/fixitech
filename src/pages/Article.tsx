@@ -21,7 +21,7 @@ export default function Article() {
   const category = categories.find(c => c.slug === article.category);
   const relatedArticles = articles.filter(a => article.relatedSlugs.includes(a.slug));
 
-  const structuredData = {
+  const howToSchema = {
     "@context": "https://schema.org",
     "@type": "HowTo",
     "name": article.title,
@@ -35,16 +35,44 @@ export default function Article() {
     })),
   };
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": article.faqs.map(faq => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.answer,
+      },
+    })),
+  };
+
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": article.title,
+    "description": article.description,
+    "datePublished": article.publishDate,
+    "dateModified": article.publishDate,
+    "author": { "@type": "Organization", "name": "fixitech" },
+    "publisher": { "@type": "Organization", "name": "fixitech", "url": "https://fixitech.site" },
+    "inLanguage": lang,
+  };
+
   return (
     <div className="flex flex-col w-full py-8 md:py-12 bg-white">
       <SEO
         title={article.title}
         description={article.description}
+        keywords={article.keywords}
         type="article"
         url={`/fix/${article.slug}`}
         lang={lang}
       />
-      <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
+      <script type="application/ld+json">{JSON.stringify(howToSchema)}</script>
+      <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
+      <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <Breadcrumbs
@@ -109,6 +137,11 @@ export default function Article() {
 
         {/* Article Content - Steps */}
         <article className="prose prose-lg prose-blue max-w-none">
+          {article.intro && (
+            <p className="text-lg leading-relaxed text-slate-700 bg-blue-50 border-l-4 border-blue-500 pl-5 pr-4 py-4 rounded-r-2xl mb-8">
+              {article.intro}
+            </p>
+          )}
           <p className="lead text-lg mb-8 text-slate-600">
             {t("followSteps")}
           </p>
